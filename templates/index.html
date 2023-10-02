@@ -1,19 +1,39 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
-<body style="font-family:arial, sans-serif">
-    <h1 style="background:green;padding:10px">
-            Regenland
-    </h1>
+<head>
+    <title>Rain Imager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Image Slider</h1>
+        <div class="background">
+                <img id="displayed-image" src="{{ url_for('static', filename='images/' + images[0]) }}" alt="Image" class="images">
+        </div>
+        <input type="range" id="slider" min="0" max="{{ num_images - 1 }}" value="0" class="slider">
+    </div>
     
-    <p>Click to see charts on different pages</p>
-    
-    <h1><a href="chart1">Example chart 1: Fruit in North America</a></h1>
-    <h1><a href="chart2">Example chart 2: Vegetables in Europe</a></h1>
-    <h1><a href="bokeh_brtiles">Interactive BR Tiles with bokeh</a></h1>
+    <script>
+        const images = {{ images | tojson }};
+        const imageObjects = [];
 
+        // Preload all images
+        for (const imageName of images) {
+            const img = new Image();
+            img.src = `{{ url_for('static', filename='images/') }}${imageName}`;
+            imageObjects.push(img);
+        }
+    </script>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const displayedImage = document.getElementById('displayed-image');
+
+        slider.addEventListener('input', () => {
+            const imageIndex = parseInt(slider.value);
+            displayedImage.src = `{{ url_for('static', filename='images/') }}${images[imageIndex]}`;
+        });
+    </script>
 </body>
-
- 
-
 </html>

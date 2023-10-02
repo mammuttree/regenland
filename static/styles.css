@@ -1,0 +1,13 @@
+.background {
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.images {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.slider {
+  width: 60%;
+}
